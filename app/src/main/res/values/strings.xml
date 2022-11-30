@@ -270,14 +270,18 @@
     <string name="marker_collision_description">Demonstrates different supported marker collision behaviors.</string>
 
     <!-- Background Customization -->
-    <string name="background_color_customization_demo_label"
-        description="Title text of Background Color Customization demo for test.">Background Color Customization</string>
-    <string name="background_color_customization_demo_description"
-        description="Text displayed below the Background Color Customization demo title.">Demonstrates how to set a custom background color to a map.</string>
-    <string name="background_color_customization_programmatic_demo_label"
-        description="Title text of Background Color Customization - Programmatic demo for test.">Background Color Customization - Programmatic</string>
-    <string name="background_color_customization_programmatic_demo_description"
-        description="Text displayed below the Background Color Customization  - Programmatic demo title.">Demonstrates how to programmatically set a custom background color to a map.</string>
+    <string name="background_color_customization_demo_label" description="Title text of Background Color Customization demo for test.">Background Color Customization</string>
+    <string name="background_color_customization_demo_description" description="Text displayed below the Background Color Customization demo title.">Demonstrates how to set a custom background color to a map.</string>
+    <string name="background_color_customization_programmatic_demo_label" description="Title text of Background Color Customization - Programmatic demo for test.">Background Color Customization - Programmatic</string>
+    <string name="background_color_customization_programmatic_demo_description" description="Text displayed below the Background Color Customization  - Programmatic demo title.">Demonstrates how to programmatically set a custom background color to a map.</string>
     <string name="show_map_tiles">Show Map Tiles</string>
-
+    <string name="about_us">About Us</string>
+    <string name="support">Support</string>
+    <string name="settings">Settings</string>
+    <string name="others">Others</string>
+    <string name="insights">Insights</string>
+    <string name="assets">Assets</string>
+    <string name="map">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
