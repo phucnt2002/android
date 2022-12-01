@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,20 +55,20 @@ public class MapFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        Intent intent = new Intent(getActivity(), MapsActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), MapsActivity.class);
+//        startActivity(intent);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d("MapFragment", "1111");
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 }

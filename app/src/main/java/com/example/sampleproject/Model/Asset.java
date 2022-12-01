@@ -22,6 +22,6 @@ public class Asset {
     @SerializedName("path")
     public String path[];
     @SerializedName("attributes")
-    public Object attributes;
+    public attributes attributes;
 
 }
