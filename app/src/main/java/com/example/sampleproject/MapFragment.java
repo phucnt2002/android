@@ -1,74 +1,92 @@
 package com.example.sampleproject;
 
-import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MapFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class MapFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public MapFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MapFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MapFragment newInstance(String param1, String param2) {
-        MapFragment fragment = new MapFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-//        Intent intent = new Intent(getActivity(), MapsActivity.class);
-//        startActivity(intent);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+    private GoogleMap mMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Log.d("MapFragment", "1111");
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        // Initialize view
+        View view=inflater.inflate(R.layout.fragment_map, container, false);
+
+        // Initialize map fragment
+        SupportMapFragment supportMapFragment=(SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.map);
+
+        // Async map
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap map) {
+                mMap = map;
+
+                //Add maker
+                LatLng latLng = new LatLng(10.87, 106.8);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.title("Cac em gai");
+                markerOptions.position(latLng);
+                mMap.addMarker(markerOptions);
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                mMap.animateCamera(cameraUpdate);
+
+                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setCompassEnabled(true);
+                mMap.getUiSettings().setZoomGesturesEnabled(true);
+                mMap.getUiSettings().setScrollGesturesEnabled(true);
+                mMap.getUiSettings().setRotateGesturesEnabled(true);
+
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                LatLng latLng1 = new LatLng( 10.86815,106.79931 );
+                LatLng latLng2 = new LatLng(10.87304, 106.80524);
+
+                //the include method will calculate the min and max bound.
+                builder.include(latLng1);
+                builder.include(latLng2);
+                final int zoomWidth = getResources().getDisplayMetrics().widthPixels;
+                final int zoomHeight = getResources().getDisplayMetrics().heightPixels;
+                final int zoomPadding = (int) (zoomWidth * 0.3);
+                final LatLngBounds bounds = builder.build();
+                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                    @Override
+                    public void onMapLoaded() {
+//                mMap.addMarker(new MarkerOptions().title("your title")
+//                        .snippet("your desc")
+//                        .position(new LatLng(10.87,106.8)));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,zoomWidth,
+                                zoomHeight,zoomPadding));
+                    }
+                });
+
+
+            }
+        });
+        // Return view
+        return view;
     }
 }

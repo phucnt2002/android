@@ -43,6 +43,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 
+
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -128,6 +129,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 permissionToken.continuePermissionRequest();
             }
         }).check();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
