@@ -2,7 +2,9 @@ package com.example.sampleproject.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Asset {
+import java.io.Serializable;
+
+public class Asset implements Serializable {
     @SerializedName("id")
     public String id;
     @SerializedName("version")

@@ -4,9 +4,14 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.sampleproject.Model.Asset;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +28,8 @@ public class AssetsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private TextView textView;
 
     public AssetsFragment() {
         // Required empty public constructor
@@ -59,6 +66,18 @@ public class AssetsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_assets, container, false);
+        View view = inflater.inflate(R.layout.fragment_assets, container, false);
+//        textView= view.findViewById(R.id.mana);
+
+
+//        Bundle data = getArguments();
+//        if(data!=null){
+//            Asset asset = (Asset) getArguments().get("asset");
+//            Toast.makeText(getContext(), "SUCCESS Send data", Toast.LENGTH_SHORT).show();
+////            textView.setText(asset.name);
+//            Log.d("API CALL", asset.attributes.weatherData.name+"fragment");
+//
+//        }
+        return view;
     }
 }

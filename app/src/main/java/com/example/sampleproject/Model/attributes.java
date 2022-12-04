@@ -9,7 +9,7 @@ public class attributes {
     public Object sunZenith;
     public Object temperature;
     public Object humidity;
-    public Object weatherData;
+    public weatherData weatherData;
     public Object location;
     public Object windDirection;
     public Object windSpeed;

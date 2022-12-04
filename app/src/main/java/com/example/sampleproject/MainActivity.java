@@ -2,6 +2,7 @@ package com.example.sampleproject;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -40,18 +41,15 @@ public class MainActivity extends AppCompatActivity {
 //        txttype.setText("HELLO MY FRIEND");
         //Call AssetAPI
 //        apiInterface = APIClient.getClient().create(APIInterface.class);
-//
-//        System.out.println(apiInterface);
-//
 //        Call<Asset> call = apiInterface.getAsset("6H4PeKLRMea1L0WsRXXWp9");//, "Bearer "+ token);
 //        call.enqueue(new Callback<Asset>() {
 //            @Override
 //            public void onResponse(Call<Asset> call, Response<Asset> response) {
 //                Log.d("API CALL", response.code()+"");
 //                Asset asset = response.body();
-//                Log.d("API CALL", asset.attributes+"");
+//                Log.d("API CALL", asset.attributes.weatherData.type+"");
 //                Toast.makeText(getApplicationContext(), "SUCCESS CALL API", Toast.LENGTH_SHORT).show();
-//
+////                senddata(asset);
 //            }
 //            @Override
 //            public void onFailure(Call<Asset> call, Throwable t) {
@@ -107,5 +105,18 @@ public class MainActivity extends AppCompatActivity {
 
 //        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 //        startActivity(intent);
+    }
+
+    private void senddata(Asset asset) {
+        AssetsFragment assetsFragment = new AssetsFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Bundle data = new Bundle();
+        data.putSerializable("asset", asset);
+        assetsFragment.setArguments(data);
+        Toast.makeText(getApplicationContext(), "SEND ", Toast.LENGTH_SHORT).show();
+        fragmentTransaction.replace(R.id.mana, assetsFragment);
+        Log.d("API CALL", asset.attributes.weatherData.name+"2");
+        fragmentTransaction.commit();
+        Log.d("API CALL", asset.attributes.weatherData.name+"3");
     }
 }
