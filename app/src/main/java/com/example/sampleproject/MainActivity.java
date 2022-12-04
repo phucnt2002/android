@@ -39,29 +39,29 @@ public class MainActivity extends AppCompatActivity {
 
 //        txttype.setText("HELLO MY FRIEND");
         //Call AssetAPI
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-
-        System.out.println(apiInterface);
-
-        Call<Asset> call = apiInterface.getAsset("6H4PeKLRMea1L0WsRXXWp9");//, "Bearer "+ token);
-        call.enqueue(new Callback<Asset>() {
-            @Override
-            public void onResponse(Call<Asset> call, Response<Asset> response) {
-                Log.d("API CALL", response.code()+"");
-                Asset asset = response.body();
-                Log.d("API CALL", asset.attributes+"");
-                Toast.makeText(getApplicationContext(), "SUCCESS CALL API", Toast.LENGTH_SHORT).show();
-
-            }
-            @Override
-            public void onFailure(Call<Asset> call, Throwable t) {
-                Log.d("API CALL", t.getMessage().toString());
-                Toast.makeText(getApplicationContext(), "ERROR CALL API", Toast.LENGTH_SHORT).show();
-
-                //t.printStackTrace();
-
-            }
-        });
+//        apiInterface = APIClient.getClient().create(APIInterface.class);
+//
+//        System.out.println(apiInterface);
+//
+//        Call<Asset> call = apiInterface.getAsset("6H4PeKLRMea1L0WsRXXWp9");//, "Bearer "+ token);
+//        call.enqueue(new Callback<Asset>() {
+//            @Override
+//            public void onResponse(Call<Asset> call, Response<Asset> response) {
+//                Log.d("API CALL", response.code()+"");
+//                Asset asset = response.body();
+//                Log.d("API CALL", asset.attributes+"");
+//                Toast.makeText(getApplicationContext(), "SUCCESS CALL API", Toast.LENGTH_SHORT).show();
+//
+//            }
+//            @Override
+//            public void onFailure(Call<Asset> call, Throwable t) {
+//                Log.d("API CALL", t.getMessage().toString());
+//                Toast.makeText(getApplicationContext(), "ERROR CALL API", Toast.LENGTH_SHORT).show();
+//
+//                //t.printStackTrace();
+//
+//            }
+//        });
 //
 //        //Call mapAPI
 //        mapInterface = APIClient.getClient().create(MapInterface.class);
