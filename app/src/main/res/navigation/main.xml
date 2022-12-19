@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@+id/menuMap">
+
+    <fragment
+        android:id="@+id/menuMap"
+        android:name="com.example.sampleproject.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/menuAssets"
+        android:name="com.example.sampleproject.AssetsFragment"
+        android:label="fragment_assets"
+        tools:layout="@layout/fragment_assets" />
+    <fragment
+        android:id="@+id/menuInsights"
+        android:name="com.example.sampleproject.InsightsFragment"
+        android:label="fragment_insights"
+        tools:layout="@layout/fragment_insights" />
+</navigation>
