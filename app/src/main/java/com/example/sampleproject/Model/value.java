@@ -1,7 +1,6 @@
 package com.example.sampleproject.Model;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class value {
     public String dt;
@@ -12,7 +11,7 @@ public class value {
     public Object main;
     public String name;
     public Object wind;
-    public coord coord;
+    public Coord coord;
     public Arrays clouds;
     public String timezone;
     public String visibility;

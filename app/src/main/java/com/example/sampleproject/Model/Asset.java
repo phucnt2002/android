@@ -24,6 +24,6 @@ public class Asset implements Serializable {
     @SerializedName("path")
     public String path[];
     @SerializedName("attributes")
-    public attributes attributes;
+    public Attributes attributes;
 
 }

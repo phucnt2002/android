@@ -1,4 +1,6 @@
 package com.example.sampleproject;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -7,7 +9,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,12 +22,20 @@ import android.widget.Toast;
 
 import com.example.sampleproject.Model.Asset;
 import com.example.sampleproject.Model.Map;
+import com.example.sampleproject.sql.DBManager;
 import com.google.android.material.navigation.NavigationView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity {
     APIInterface apiInterface;
     MapInterface mapInterface;
@@ -31,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     NavController navController;
+    long timeStart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Calendar calendar = Calendar.getInstance();
+        DBManager.initializeInstance(this);
+
 
 //        TextView txttype = (TextView)findViewById(R.id.textView1);
 
@@ -105,18 +122,22 @@ public class MainActivity extends AppCompatActivity {
 
 //        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
 //        startActivity(intent);
+
     }
 
-    private void senddata(Asset asset) {
-        AssetsFragment assetsFragment = new AssetsFragment();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Bundle data = new Bundle();
-        data.putSerializable("asset", asset);
-        assetsFragment.setArguments(data);
-        Toast.makeText(getApplicationContext(), "SEND ", Toast.LENGTH_SHORT).show();
-        fragmentTransaction.replace(R.id.mana, assetsFragment);
-        Log.d("API CALL", asset.attributes.weatherData.name+"2");
-        fragmentTransaction.commit();
-        Log.d("API CALL", asset.attributes.weatherData.name+"3");
-    }
+
+//    private void senddata(Asset asset) {
+//        AssetsFragment assetsFragment = new AssetsFragment();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        Bundle data = new Bundle();
+//        data.putSerializable("asset", asset);
+//        assetsFragment.setArguments(data);
+//        Toast.makeText(getApplicationContext(), "SEND ", Toast.LENGTH_SHORT).show();
+//        fragmentTransaction.replace(R.id.mana, assetsFragment);
+//        Log.d("API CALL", asset.attributes.weatherData.name+"2");
+//        fragmentTransaction.commit();
+//        Log.d("API CALL", asset.attributes.weatherData.name+"3");
+//    }
+
+
 }

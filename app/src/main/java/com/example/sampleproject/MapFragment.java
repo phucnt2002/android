@@ -1,5 +1,7 @@
 package com.example.sampleproject;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.Manifest;
@@ -19,9 +21,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sampleproject.Model.Asset;
+import com.example.sampleproject.Model.Current;
+import com.example.sampleproject.sql.DBManager;
+import com.example.sampleproject.sql.DataWeatherModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,126 +38,33 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
+import com.socks.library.KLog;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MapFragment extends Fragment {
     private GoogleMap mMap;
     APIInterface apiInterface;
+    SupportMapFragment supportMapFragment;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        apiInterface = APIClient.getClient().create(APIInterface.class);
-        Call<Asset> call = apiInterface.getAsset("6H4PeKLRMea1L0WsRXXWp9");//, "Bearer "+ token);
-        call.enqueue(new Callback<Asset>() {
-            @Override
-            public void onResponse(Call<Asset> call, Response<Asset> response) {
-                Log.d("API CALL F", response.code()+"");
-                Asset asset = response.body();
-                Log.d("API CALL F", asset.attributes.weatherData.type+"");
-                Toast.makeText(getContext(), "SUCCESS CALL API", Toast.LENGTH_SHORT).show();
-                SupportMapFragment supportMapFragment=(SupportMapFragment)
-                        getChildFragmentManager().findFragmentById(R.id.map);
-
-                // Async map
-                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap map) {
-                        mMap = map;
-
-                        //Add maker
-                        double lat = Double.parseDouble(asset.attributes.weatherData.value.coord.lat);
-                        double lon = Double.parseDouble(asset.attributes.weatherData.value.coord.lon);
-                        LatLng latLng = new LatLng(lat, lon);
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.title(asset.attributes.weatherData.value.name);
-                        markerOptions.position(latLng);
-                        mMap.addMarker(markerOptions);
-
-
-                        //move camera to marker
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
-                        mMap.animateCamera(cameraUpdate);
-
-                        //zoom map
-                        mMap.getUiSettings().setZoomControlsEnabled(true);
-                        mMap.getUiSettings().setCompassEnabled(true);
-                        mMap.getUiSettings().setZoomGesturesEnabled(true);
-                        mMap.getUiSettings().setScrollGesturesEnabled(true);
-                        mMap.getUiSettings().setRotateGesturesEnabled(true);
-
-                        //set camera
-                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                        LatLng latLng1 = new LatLng( 10.86815,106.79931 );
-                        LatLng latLng2 = new LatLng(10.87304, 106.80524);
-
-                        //the include method will calculate the min and max bound.
-                        builder.include(latLng1);
-                        builder.include(latLng2);
-                        final int zoomWidth = getResources().getDisplayMetrics().widthPixels;
-                        final int zoomHeight = getResources().getDisplayMetrics().heightPixels;
-                        final int zoomPadding = (int) (zoomWidth * 0.3);
-                        final LatLngBounds bounds = builder.build();
-
-                        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                            @Override
-                            public void onMapLoaded() {
-                                mMap.addMarker(new MarkerOptions().title("DH CNTT")
-                                        .position(new LatLng(10.870346,106.802480)));
-                                mMap.addMarker(new MarkerOptions().title("DH Nong Lam")
-                                        .position(new LatLng(10.871142949778433,106.7915703367933)));
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds,zoomWidth,
-                                        zoomHeight,zoomPadding));
-                            }
-                        });
-
-                        //GPS
-                        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            // TODO: Consider calling
-                            //    ActivityCompat#requestPermissions
-                            // here to request the missing permissions, and then overriding
-                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                            //                                          int[] grantResults)
-                            // to handle the case where the user grants the permission. See the documentation
-                            // for ActivityCompat#requestPermissions for more details.
-                            return;
-                        }
-                        mMap.setMyLocationEnabled(true);
-
-                        //event click marker
-                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                            @Override
-                            public boolean onMarkerClick(@NonNull Marker marker) {
-                                String markerName = marker.getTitle();
-
-//                                AssetsFragment assetsFragment = new AssetsFragment();
-//                                FragmentManager fragmentManager = getChildFragmentManager();
-//                                Bundle data = new Bundle();
-//                                data.putSerializable("asset", asset);
-//                                assetsFragment.setArguments(data);
-//                                Log.d("API CALL", asset.attributes.weatherData.name+"1");
-//                                fragmentManager.beginTransaction().replace(R.id.fragment_container_view_tag, assetsFragment).commit();
-//                                Log.d("API CALL", asset.attributes.weatherData.name+"2");
-//                                Log.d("API CALL", asset.attributes.weatherData.name+"3");
-
-                                Toast.makeText(getActivity(), "Clicked location is " + markerName, Toast.LENGTH_SHORT).show();
-                                return false;
-                            }
-                        });
-                    }
-
-                });
-
-            }
-            @Override
-            public void onFailure(Call<Asset> call, Throwable t) {
-                Log.d("API CALL", t.getMessage().toString());
-                Toast.makeText(getContext(), "ERROR CALL API", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -158,12 +72,126 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Initialize view
         Log.d("Fragment", "onCreateView");
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        View view=inflater.inflate(R.layout.fragment_map, container, false);
-
-        // Initialize map fragment
-
-        // Return view
         return view;
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
+//        GPS
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling   ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1);
+            return;
+        }
+
+        setViewMap();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // If request is cancelled, the result arrays are empty.
+        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            setViewMap();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setViewMap() {
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap map) {
+                mMap = map;
+
+                mMap.setMyLocationEnabled(true);
+
+                //event click marker
+                mMap.setOnMarkerClickListener(marker -> {
+                    Current current = (Current) marker.getTag();
+
+                    Intent intent = new Intent(getContext(), InfoDeviceActivity.class);
+                    intent.putExtra("Current", new Gson().toJson(current));
+                    startActivity(intent);
+                    return false;
+                });
+
+                APIClient.getClient().create(APIInterface.class).getCurrent()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(currentArrayList -> {
+                            for (Current current : currentArrayList) {
+                                if (current.attributes.weatherData != null) {
+                                    Log.e("add Marker Device", " " + current.id + " " + current.attributes.location.value.coordinates.get(1) + " " + current.attributes.location.value.coordinates.get(0));
+
+                                    //Add maker thiết bị
+                                    double lat = current.attributes.location.value.coordinates.get(1);
+                                    double lon = current.attributes.location.value.coordinates.get(0);
+                                    LatLng latLng = new LatLng(lat, lon);
+                                    MarkerOptions markerOptions = new MarkerOptions();
+                                    markerOptions.title(current.name);
+                                    markerOptions.position(latLng);
+
+                                    Marker marker = mMap.addMarker(markerOptions);
+                                    marker.setTag(current);
+
+
+                                    DataWeatherModel dataWeatherModel = new DataWeatherModel(current.id, Calendar.getInstance().getTimeInMillis(),
+                                            current.attributes.temperature.value,
+                                            current.attributes.humidity.value,
+                                            current.attributes.windSpeed.value,
+                                            current.attributes.windDirection.value);
+                                    DBManager.getInstance().addWeather(dataWeatherModel);
+
+                                    //move camera to marker
+                                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
+                                    mMap.animateCamera(cameraUpdate);
+
+
+                                }
+                            }
+
+                            KLog.json(new Gson().toJson(DBManager.getInstance().getWeather()));
+                        }, throwable -> {
+                            Log.e("getCurrent Error", " " + throwable.getMessage());
+                        });
+
+
+            }
+
+        });
+
+    }
+
+    public static long getTimeNow() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getDefault());
+
+        Date date = new Date();
+        try {
+            date = sdf.parse(getDateNow());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
+    public static String getDateNow() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        String time = df.format(c.getTime());
+        return time;
+    }
+
+
 }
