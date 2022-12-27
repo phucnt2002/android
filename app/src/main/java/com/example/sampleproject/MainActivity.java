@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sampleproject.Model.Asset;
-import com.example.sampleproject.Model.Map;
 import com.example.sampleproject.sql.DBManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,7 +37,6 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
     APIInterface apiInterface;
-    MapInterface mapInterface;
     Button btnSend;
     DrawerLayout drawerLayout;
     NavigationView navigationView;

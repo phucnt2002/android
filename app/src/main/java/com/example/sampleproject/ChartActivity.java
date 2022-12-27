@@ -81,7 +81,6 @@ public class ChartActivity extends AppCompatActivity {
 
         btnDate.setOnClickListener(view -> {
 
-
             new DatePickerDialog(this, (viewDatePickerDialog, year, monthOfYear, dayOfMonth) -> {
 
                 calendar.set(Calendar.YEAR, year);
@@ -203,12 +202,13 @@ public class ChartActivity extends AppCompatActivity {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        //Khoảng cách của các điểm x
         xAxis.setGranularity(2f);
         xAxis.setLabelCount(dataChart.length);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(mDays));
 
-        YAxis rightAxis = chartTemp.getAxisRight();
-        rightAxis.setEnabled(false);
+//        YAxis rightAxis = chartTemp.getAxisRight();
+//        rightAxis.setEnabled(false);
 
 
         ArrayList<Entry> barEntries = new ArrayList<>();
@@ -218,18 +218,19 @@ public class ChartActivity extends AppCompatActivity {
         }
         LineDataSet barDataSet = new LineDataSet(barEntries, "Đơn vị đo: " + unit);
         barDataSet.setDrawIcons(false);
-        barDataSet.setColors(ContextCompat.getColor(this, R.color.colorPrimary));
+        barDataSet.setColors(ContextCompat.getColor(this, R.color.colorAccent));
+        barDataSet.setCircleColor(ContextCompat.getColor(this, R.color.colorGreen));
+        barDataSet.setDrawFilled(true);
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(barDataSet);
         LineData data = new LineData(dataSets);
         chart.setData(data);
         // hien thi so du lieu tren bieu do
-        chart.setVisibleXRangeMaximum(8);
+        chart.setVisibleXRangeMaximum(10);
         chart.getXAxis().setSpaceMax(1);
         chart.setEnabled(false);
-
+        chart.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
         chart.invalidate();
-
     }
 
 }

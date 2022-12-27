@@ -13,4 +13,7 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGreen">#32CD32</color>
+    <color name="blue">#CCFFFF</color>
+    <color name="blue_dam">#6699FF</color>
+
 </resources>

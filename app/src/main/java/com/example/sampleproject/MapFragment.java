@@ -50,6 +50,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import maes.tech.intentanim.CustomIntent;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -121,8 +122,10 @@ public class MapFragment extends Fragment {
                     Current current = (Current) marker.getTag();
 
                     Intent intent = new Intent(getContext(), InfoDeviceActivity.class);
+                    KLog.json(new Gson().toJson(current));
                     intent.putExtra("Current", new Gson().toJson(current));
                     startActivity(intent);
+//                    CustomIntent.customType(getContext(), "fadein-to-fadeout");
                     return false;
                 });
 

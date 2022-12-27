@@ -16,6 +16,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
+import maes.tech.intentanim.CustomIntent;
+
 
 public class InfoDeviceActivity extends AppCompatActivity {
 
@@ -68,6 +70,8 @@ public class InfoDeviceActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ChartActivity.class);
             intent.putExtra("id", current.id);
             startActivity(intent);
+            CustomIntent.customType(this, "left-to-right");
+
         });
 
 
