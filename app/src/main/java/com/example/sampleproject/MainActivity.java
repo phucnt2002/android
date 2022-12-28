@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.sampleproject.Model.Asset;
 import com.example.sampleproject.sql.DBManager;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     NavController navController;
     long timeStart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
