@@ -3,6 +3,7 @@ package com.example.sampleproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import maes.tech.intentanim.CustomIntent;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,8 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
+            Log.d("loggin", "email+password");
+            FirebaseAuth.getInstance().signOut();
+//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//            finish();
         }
 
         // set the view now
@@ -57,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+                CustomIntent.customType(LoginActivity.this, "left-to-right");
+
             }
         });
 
@@ -64,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                CustomIntent.customType(LoginActivity.this, "left-to-right");
+
             }
         });
 
@@ -84,13 +93,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-                auth.getInstance().signOut();
 
                 //authenticate user
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
@@ -105,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                                 } else {
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
+                                    CustomIntent.customType(LoginActivity.this, "left-to-right");
                                     finish();
                                 }
                             }

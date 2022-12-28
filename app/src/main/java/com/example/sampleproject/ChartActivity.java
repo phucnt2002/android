@@ -38,6 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+import maes.tech.intentanim.CustomIntent;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -64,7 +65,11 @@ public class ChartActivity extends AppCompatActivity {
         checkboxMonth = findViewById(R.id.checkboxMonth);
         checkboxYear = findViewById(R.id.checkboxYear);
         btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(view -> finish());
+        btnBack.setOnClickListener(view -> {
+            CustomIntent.customType(this, "left-to-right");
+
+            finish();
+        });
         tvChartTemp = findViewById(R.id.tvChartTemp);
         tvCharSpeed = findViewById(R.id.tvCharSpeed);
         chartSpeed = findViewById(R.id.chartSpeed);
@@ -144,6 +149,7 @@ public class ChartActivity extends AppCompatActivity {
             float[] mDataHumidity = new float[weatherDatas.size()];
             float[] mDataSpeed = new float[weatherDatas.size()];
 
+
             for (int i = 0; i < weatherDatas.size(); i++) {
 
                 if (checkboxDate.isChecked())
@@ -156,6 +162,10 @@ public class ChartActivity extends AppCompatActivity {
                 mDataTemp[i] = Float.parseFloat(weatherDatas.get(i).temp);
                 mDataHumidity[i] = Float.parseFloat(weatherDatas.get(i).humidity);
                 mDataSpeed[i] = Float.parseFloat(weatherDatas.get(i).speed);
+//                Log.d("mDataTemp", mDataTemp[i]+"");
+//                Log.d("mDataHumidity", mDataHumidity[i]+"");
+//                Log.d("mDataSpeed", mDataSpeed[i]+"");
+
             }
             setDataChart(chartTemp, mDays, mDataTemp, "°C");
             setDataChart(chartHumidity, mDays, mDataHumidity, "%");

@@ -129,6 +129,9 @@ public class MapFragment extends Fragment {
                     return false;
                 });
 
+                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setRotateGesturesEnabled(true);
+
                 APIClient.getClient().create(APIInterface.class).getCurrent()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -159,8 +162,6 @@ public class MapFragment extends Fragment {
                                     //move camera to marker
                                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 15);
                                     mMap.animateCamera(cameraUpdate);
-
-
                                 }
                             }
 

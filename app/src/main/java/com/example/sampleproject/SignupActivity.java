@@ -20,6 +20,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import maes.tech.intentanim.CustomIntent;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -56,6 +58,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
+                CustomIntent.customType(SignupActivity.this, "left-to-right");
             }
         });
 
@@ -64,6 +67,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 startActivity(intent);
+                CustomIntent.customType(SignupActivity.this, "right-to-left");
+
             }
         });
 
@@ -99,16 +104,17 @@ public class SignupActivity extends AppCompatActivity {
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                                    Toast.makeText(SignupActivity.this, "Email already exists",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     startActivity(new Intent(SignupActivity.this, SignupActivity.class));
+                                    CustomIntent.customType(SignupActivity.this, "left-to-right");
                                     finish();
                                 }
                             }
