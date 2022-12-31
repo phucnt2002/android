@@ -3,12 +3,13 @@ package com.example.sampleproject;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sampleproject.Model.Current;
+import com.example.sampleproject.sql.DBManager;
+import com.example.sampleproject.sql.DataWeatherModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.socks.library.KLog;
@@ -16,6 +17,8 @@ import com.socks.library.KLog;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import maes.tech.intentanim.CustomIntent;
 
@@ -46,32 +49,52 @@ public class InfoDeviceActivity extends AppCompatActivity {
         TextView tvTimePressure = findViewById(R.id.tvTimePressure);
         TextView tvTempMax = findViewById(R.id.tvTempMax);
         TextView tvTempMin = findViewById(R.id.tvTempMin);
+        TextView tvCloud = findViewById(R.id.tvCloud);
+        TextView tvTimeCloud = findViewById(R.id.tvTimeCloud);
 
         findViewById(R.id.btnBack).setOnClickListener(view -> finish());
 
         String json = getIntent().getStringExtra("Current");
         Gson gson = new GsonBuilder().create();
-        KLog.json(json);
+//        KLog.json(json);
         Current current = gson.fromJson(json, Current.class);
 
         tvName.setText(current.name);
 
+        ArrayList<DataWeatherModel> weatherDatas = DBManager.getInstance().getWeatherByDate(Calendar.getInstance().getTimeInMillis(), current.id);
+
+
+        float minTemp = Float.parseFloat(weatherDatas.get(0).temp);
+        float maxTemp = 0;
+        for(int i = 0; i<weatherDatas.size(); i++){
+            if(Float.parseFloat(weatherDatas.get(i).temp)<minTemp){
+                minTemp = Float.parseFloat(weatherDatas.get(i).temp);
+            }
+            if(Float.parseFloat(weatherDatas.get(i).temp)>maxTemp){
+                maxTemp = Float.parseFloat(weatherDatas.get(i).temp);
+            }
+        }
+
         tvHumidity.setText(current.attributes.humidity.value + "%");
         tvTemp.setText(current.attributes.temperature.value + " °C");
-        tvDeg.setText(String.valueOf(current.attributes.windDirection.value));
+        tvDeg.setText((current.attributes.windDirection.value)+" °");
         tvSpeed.setText(current.attributes.windSpeed.value + " km/h");
         tvPressure.setText(current.attributes.weatherData.value.main.pressure+ " N/m²");
-        tvTempMax.setText("Cao nhất: "+current.attributes.weatherData.value.main.temp_max + " °C");
-        tvTempMin.setText("Thấp nhất: "+current.attributes.weatherData.value.main.temp_min + " °C");
+//        tvTempMax.setText("Cao nhất: "+current.attributes.weatherData.value.main.temp_max + " °C");
+//        tvTempMin.setText("Thấp nhất: "+current.attributes.weatherData.value.main.temp_min + " °C");
+        tvTempMax.setText("Cao nhất: "+maxTemp + " °C");
+        tvTempMin.setText("Thấp nhất: "+minTemp + " °C");
+        tvCloud.setText((current.attributes.weatherData.value.weather.get(0).description));
 
         tvTimeDeg.setText(formatLongToDate(current.attributes.windDirection.timestamp));
         tvTimeSpeed.setText(formatLongToDate(current.attributes.windSpeed.timestamp));
         tvTimeHumidity.setText(formatLongToDate(current.attributes.humidity.timestamp));
         tvTimeTemp.setText(formatLongToDate(current.attributes.temperature.timestamp));
         tvTimeLatLong.setText(formatLongToDate(current.attributes.location.timestamp));
-        tvSunset.setText("Mặt trời mọc: "+formatLongToDate(current.attributes.weatherData.value.sys.sunset*1000));
-        tvSunrise.setText("Mặt trời lặn: "+formatLongToDate(current.attributes.weatherData.value.sys.sunrise*1000));
-        tvTimePressure.setText(formatLongToDate(current.attributes.location.timestamp));
+        tvSunset.setText("Mặt trời lặn: "+formatLongToDate(current.attributes.weatherData.value.sys.sunset*1000));
+        tvSunrise.setText("Mặt trời mọc: "+formatLongToDate(current.attributes.weatherData.value.sys.sunrise*1000));
+        tvTimePressure.setText(formatLongToDate(current.attributes.humidity.timestamp));
+        tvTimeCloud.setText(formatLongToDate(current.attributes.humidity.timestamp));
 
         double lat = current.attributes.location.value.coordinates.get(1);
         double lon = current.attributes.location.value.coordinates.get(0);

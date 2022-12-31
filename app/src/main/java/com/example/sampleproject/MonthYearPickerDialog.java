@@ -41,9 +41,9 @@ public class MonthYearPickerDialog extends DialogFragment {
         monthPicker.setMaxValue(12);
         monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
 
+        //nếu chọn lọc theo năm thì type = 1
         if (type == 1)
             monthPicker.setVisibility(View.GONE);
-
 
         int year = cal.get(Calendar.YEAR);
         yearPicker.setMinValue(year);

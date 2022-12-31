@@ -124,9 +124,12 @@ public class DBManager extends SQLiteOpenHelper {
                 String dateDb = TimeUtils.formatLongToDate(time);
                 if (dateDb.endsWith(date)) {
                     DataWeatherModel dataWeatherModel = new DataWeatherModel(
-                            cursor.getString(0), time,
-                            cursor.getString(2), cursor.getString(3),
-                            cursor.getString(4), cursor.getString(5));
+                            cursor.getString(0),
+                            time,
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5));
 
                     weathers.add(dataWeatherModel);
                 }
@@ -140,7 +143,6 @@ public class DBManager extends SQLiteOpenHelper {
         ArrayList<DataWeatherModel> weathers = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_WEATHER + " WHERE " + ID + "='" + id + "'", null);
-        String dateOld = "";
 
         if (cursor.moveToFirst()) {
             do {
@@ -148,23 +150,31 @@ public class DBManager extends SQLiteOpenHelper {
                 String dateDb = TimeUtils.formatLongToMonth(time);
                 if (dateDb.endsWith(date)) {
                     DataWeatherModel dataWeatherModel = new DataWeatherModel(
-                            cursor.getString(0), time,
-                            cursor.getString(2), cursor.getString(3),
-                            cursor.getString(4), cursor.getString(5));
+                            cursor.getString(0),
+                            time,
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5));
                     weathers.add(dataWeatherModel);
                 }
             } while (cursor.moveToNext());
         }
 
+        //Lấy object dữ liệu cuối ngày nếu chọn biểu đồ theo tháng
+        String dateOld = "";
         ArrayList<DataWeatherModel> weathers2 = new ArrayList<>();
 //        weathers2.addAll(weathers);
         for (DataWeatherModel dataWeatherModel : weathers) {
-            String dateDb = TimeUtils.formatLongToDate(dataWeatherModel.time);
-            if (dateOld.endsWith(dateDb))
+            //dd/MM/yyyy thời gian lưu trong SQlite
+            String timeData = TimeUtils.formatLongToDate(dataWeatherModel.time);
+            //nếu trong dateOld có tồn tại timeData phía cuối, thì chèn dataWeatherModel vào vị trí weathers2.size() - 1
+            //ngược lại thêm vào cuối weathers2
+            if (dateOld.endsWith(timeData))
                 weathers2.set(weathers2.size() - 1, dataWeatherModel);
             else weathers2.add(dataWeatherModel);
 //                weathers2.remove(dataWeatherModel);
-            dateOld = dateDb;
+            dateOld = timeData;
         }
 
         db.close();
@@ -190,6 +200,7 @@ public class DBManager extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        //Lấy ngày cuối cùng trong tháng nếu vẽ biểu đồ theo ngày
         String yearOld = "";
         ArrayList<DataWeatherModel> weathers2 = new ArrayList<>();
         for (DataWeatherModel dataWeatherModel : weathers) {

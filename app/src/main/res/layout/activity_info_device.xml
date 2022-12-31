@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/blue"
     tools:context=".InfoDeviceActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +44,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -251,7 +253,8 @@
                 android:layout_marginBottom="20dp"
                 android:background="@color/white"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="6dp">
+                app:cardElevation="6dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -279,7 +282,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
-                            android:id="@+id/tvTimeDeg"
+                        android:id="@+id/tvTimeDeg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -288,7 +291,6 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -296,7 +298,8 @@
                 android:layout_marginBottom="20dp"
                 android:background="@color/white"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="6dp">
+                app:cardElevation="6dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -307,15 +310,16 @@
                     android:padding="10dp">
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:text="Thời gian"
+                        android:text="Mây"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/tvSunrises"
+                        android:id="@+id/tvCloud"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -323,7 +327,7 @@
                         android:textColor="@color/black" />
 
                     <TextView
-                        android:id="@+id/tvSunset"
+                        android:id="@+id/tvTimeCloud"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -332,6 +336,7 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -395,6 +400,52 @@
                     android:padding="10dp">
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Thời gian"
+                        android:textColor="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tvSunrises"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="0"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvSunset"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginTop="6dp"
+                        android:text="0"
+                        android:textColor="@color/black"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="6dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -417,7 +468,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:layout_marginTop="6dp"
-                        android:text="0" />
+                        android:text="0"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -431,7 +483,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/purple_700"
+        android:background="@drawable/button"
         android:text="Biểu Đồ thống kê"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />

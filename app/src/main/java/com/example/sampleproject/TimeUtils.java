@@ -11,7 +11,7 @@ public class TimeUtils {
     public static long convertTime(String time) {
 //        2017-02-08 00:55:29
         //03:48:33 04-05-2017
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getDefault());
 
         Date date = new Date();
@@ -65,6 +65,13 @@ public class TimeUtils {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(timeLong);
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        return df.format(c.getTime());
+    }
+
+    public static String formatLongToDateHour(long timeLong) {
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(timeLong);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(c.getTime());
     }
 

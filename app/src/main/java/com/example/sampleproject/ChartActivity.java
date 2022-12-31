@@ -5,18 +5,15 @@ import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sampleproject.Model.WeatherData;
 import com.example.sampleproject.sql.DBManager;
 import com.example.sampleproject.sql.DataWeatherModel;
 import com.github.mikephil.charting.charts.LineChart;
@@ -31,16 +28,10 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.gson.Gson;
 import com.socks.library.KLog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 import maes.tech.intentanim.CustomIntent;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class ChartActivity extends AppCompatActivity {
 
@@ -67,7 +58,6 @@ public class ChartActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(view -> {
             CustomIntent.customType(this, "left-to-right");
-
             finish();
         });
         tvChartTemp = findViewById(R.id.tvChartTemp);
@@ -97,9 +87,8 @@ public class ChartActivity extends AppCompatActivity {
                 setDataDb(weatherDatas);
 
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-
-
         });
+
         btnMonth.setOnClickListener(view -> {
             MonthYearPickerDialog pd = new MonthYearPickerDialog();
             pd.setListener(new DatePickerDialog.OnDateSetListener() {
@@ -114,6 +103,7 @@ public class ChartActivity extends AppCompatActivity {
             });
             pd.show(getSupportFragmentManager(), "MonthYearPickerDialog");
         });
+
         btnYear.setOnClickListener(view -> {
             MonthYearPickerDialog pd = new MonthYearPickerDialog();
             pd.type = 1;
@@ -132,9 +122,11 @@ public class ChartActivity extends AppCompatActivity {
         checkboxDate.setOnClickListener(view -> checkBoxEvent(view.getId()));
         checkboxMonth.setOnClickListener(view -> checkBoxEvent(view.getId()));
         checkboxYear.setOnClickListener(view -> checkBoxEvent(view.getId()));
+
+        //mặc định khi vẽ biễu đồ checkbox vào ngày
         checkBoxEvent(checkboxDate.getId());
         btnDate.setText(TimeUtils.formatLongToDate(calendar.getTimeInMillis()));
-
+        //lấy dữ liệu theo ngày hiện tại từ database
         ArrayList<DataWeatherModel> weatherDatas = DBManager.getInstance().getWeatherByDate(calendar.getTimeInMillis(),id);
         setDataDb(weatherDatas);
     }
@@ -151,7 +143,6 @@ public class ChartActivity extends AppCompatActivity {
 
 
             for (int i = 0; i < weatherDatas.size(); i++) {
-
                 if (checkboxDate.isChecked())
                     mDays[i] = TimeUtils.formatLongToHour(weatherDatas.get(i).time);
                 else if (checkboxMonth.isChecked())

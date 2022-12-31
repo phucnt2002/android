@@ -1,4 +1,4 @@
-package com.example.sampleproject.adapter;
+package com.example.sampleproject.sql.adapter;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -16,7 +16,5 @@ public class WeatherData {
         public Wind wind;
         public Sys sys;
         public ArrayList<Weather> weather;
-
-
     }
 }

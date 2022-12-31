@@ -1,7 +1,11 @@
 package com.example.sampleproject;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.Manifest;
@@ -21,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,7 +101,6 @@ public class MapFragment extends Fragment {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1);
             return;
         }
-
         setViewMap();
     }
 
@@ -121,10 +126,13 @@ public class MapFragment extends Fragment {
                 mMap.setOnMarkerClickListener(marker -> {
                     Current current = (Current) marker.getTag();
 
-                    Intent intent = new Intent(getContext(), InfoDeviceActivity.class);
-                    KLog.json(new Gson().toJson(current));
-                    intent.putExtra("Current", new Gson().toJson(current));
-                    startActivity(intent);
+
+                    onpenDialog(Gravity.BOTTOM, current);
+
+//                    Intent intent = new Intent(getContext(), InfoDeviceActivity.class);
+//                    KLog.json(new Gson().toJson(current));
+//                    intent.putExtra("Current", new Gson().toJson(current));
+//                    startActivity(intent);
 //                    CustomIntent.customType(getContext(), "fadein-to-fadeout");
                     return false;
                 });
@@ -137,10 +145,11 @@ public class MapFragment extends Fragment {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(currentArrayList -> {
                             for (Current current : currentArrayList) {
+//                                KLog.json(new Gson().toJson(current));
                                 if (current.attributes.weatherData != null) {
                                     Log.e("add Marker Device", " " + current.id + " " + current.attributes.location.value.coordinates.get(1) + " " + current.attributes.location.value.coordinates.get(0));
 
-                                    //Add maker thiết bị
+                                    //Add maker Device
                                     double lat = current.attributes.location.value.coordinates.get(1);
                                     double lon = current.attributes.location.value.coordinates.get(0);
                                     LatLng latLng = new LatLng(lat, lon);
@@ -151,8 +160,10 @@ public class MapFragment extends Fragment {
                                     Marker marker = mMap.addMarker(markerOptions);
                                     marker.setTag(current);
 
-
-                                    DataWeatherModel dataWeatherModel = new DataWeatherModel(current.id, Calendar.getInstance().getTimeInMillis(),
+                                    //Add data to database
+                                    DataWeatherModel dataWeatherModel = new DataWeatherModel(
+                                            current.id,
+                                            Calendar.getInstance().getTimeInMillis(),
                                             current.attributes.temperature.value,
                                             current.attributes.humidity.value,
                                             current.attributes.windSpeed.value,
@@ -173,6 +184,55 @@ public class MapFragment extends Fragment {
 
             }
 
+        });
+
+
+    }
+
+    private void onpenDialog(int gravity, Current current){
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_dialog_info);
+        Window window = dialog.getWindow();
+        if(window==null){
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+        dialog.setCancelable(true);
+        dialog.show();
+
+        Button btn_detail = dialog.findViewById(R.id.btn_detail);
+        TextView textName = dialog.findViewById(R.id.textName);
+        TextView textTemp = dialog.findViewById(R.id.textTemp);
+        TextView textHum = dialog.findViewById(R.id.textHum);
+        Button btn_history = dialog.findViewById(R.id.btn_history);
+
+        textName.setText(current.name);
+        textTemp.setText(current.attributes.temperature.value + " °C");
+        textHum.setText(current.attributes.humidity.value + "%");
+
+
+        btn_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), InfoDeviceActivity.class);
+                    intent.putExtra("Current", new Gson().toJson(current));
+                    startActivity(intent);
+            }
+        });
+
+        btn_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), HistoryActivity.class);
+                intent.putExtra("id", current.id);
+                startActivity(intent);
+            }
         });
 
     }

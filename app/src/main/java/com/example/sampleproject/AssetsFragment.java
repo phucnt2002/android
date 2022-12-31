@@ -8,10 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sampleproject.Model.Asset;
+import com.example.sampleproject.sql.DBManager;
+import com.example.sampleproject.sql.DataWeatherModel;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +35,8 @@ public class AssetsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextView textView;
+    private ListView listViewHis;
+    private ArrayList<String> arrayTime;
 
     public AssetsFragment() {
         // Required empty public constructor
@@ -67,17 +74,19 @@ public class AssetsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_assets, container, false);
-//        textView= view.findViewById(R.id.mana);
+        listViewHis = (ListView) view.findViewById(R.id.listViewHis);
+        arrayTime = new ArrayList<>();
+        ArrayList<DataWeatherModel> weatherDatas = DBManager.getInstance().getWeather();
+        for(DataWeatherModel weatherData : weatherDatas){
+            arrayTime.add(TimeUtils.formatLongToDateHour(weatherData.time));
+        }
 
-
-//        Bundle data = getArguments();
-//        if(data!=null){
-//            Asset asset = (Asset) getArguments().get("asset");
-//            Toast.makeText(getContext(), "SUCCESS Send data", Toast.LENGTH_SHORT).show();
-////            textView.setText(asset.name);
-//            Log.d("API CALL", asset.attributes.weatherData.name+"fragment");
-//
-//        }
+        ArrayAdapter adapter = new ArrayAdapter(
+                getContext(),
+                android.R.layout.simple_list_item_1,
+                arrayTime
+        );
+        listViewHis.setAdapter(adapter);
         return view;
     }
 }

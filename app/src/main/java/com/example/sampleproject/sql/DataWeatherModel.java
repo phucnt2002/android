@@ -8,6 +8,10 @@ public class DataWeatherModel {
     public String humidity;
     public String speed;
     public String deg;
+    //cloud
+    //pressure
+    //sunset
+
 
     public DataWeatherModel(String id,long time, String temp, String humidity, String speed, String deg) {
         this.id = id;
