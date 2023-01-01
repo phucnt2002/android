@@ -1,8 +1,16 @@
 package com.example.sampleproject;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +59,7 @@ public class InfoDeviceActivity extends AppCompatActivity {
         TextView tvTempMin = findViewById(R.id.tvTempMin);
         TextView tvCloud = findViewById(R.id.tvCloud);
         TextView tvTimeCloud = findViewById(R.id.tvTimeCloud);
+        Button btnComment = findViewById(R.id.btnComment);
 
         findViewById(R.id.btnBack).setOnClickListener(view -> finish());
 
@@ -106,9 +115,17 @@ public class InfoDeviceActivity extends AppCompatActivity {
             intent.putExtra("id", current.id);
             startActivity(intent);
             CustomIntent.customType(this, "left-to-right");
-            finish();
         });
 
+        btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InfoDeviceActivity.this, CommentActivity.class);
+                intent.putExtra("Current", new Gson().toJson(current));
+                startActivity(intent);
+                CustomIntent.customType(InfoDeviceActivity.this, "left-to-right");
+            }
+        });
 
     }
 

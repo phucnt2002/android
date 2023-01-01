@@ -113,7 +113,7 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Email already exists",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(SignupActivity.this, SignupActivity.class));
+                                    startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                                     CustomIntent.customType(SignupActivity.this, "left-to-right");
                                     finish();
                                 }

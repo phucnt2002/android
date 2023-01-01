@@ -473,6 +473,16 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+            <Button
+                android:id="@+id/btnComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/button"
+                android:text="Biểu Đồ thống kê"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
