@@ -474,7 +474,29 @@
 
             </androidx.cardview.widget.CardView>
             <Button
+                android:id="@+id/btnReadComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/button"
+                android:text="Xem các phản hồi thực tế"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
                 android:id="@+id/btnComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/button"
+                android:text="Gửi phản hồi thực tế"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <Button
+                android:id="@+id/btnChart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -483,19 +505,9 @@
                 android:text="Biểu Đồ thống kê"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent" />
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/btnChart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/button"
-        android:text="Biểu Đồ thống kê"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

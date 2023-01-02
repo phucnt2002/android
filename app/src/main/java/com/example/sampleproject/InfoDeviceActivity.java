@@ -60,6 +60,7 @@ public class InfoDeviceActivity extends AppCompatActivity {
         TextView tvCloud = findViewById(R.id.tvCloud);
         TextView tvTimeCloud = findViewById(R.id.tvTimeCloud);
         Button btnComment = findViewById(R.id.btnComment);
+        Button btnReadComment = findViewById(R.id.btnReadComment);
 
         findViewById(R.id.btnBack).setOnClickListener(view -> finish());
 
@@ -122,6 +123,15 @@ public class InfoDeviceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(InfoDeviceActivity.this, CommentActivity.class);
                 intent.putExtra("Current", new Gson().toJson(current));
+                startActivity(intent);
+                CustomIntent.customType(InfoDeviceActivity.this, "left-to-right");
+            }
+        });
+
+        btnReadComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InfoDeviceActivity.this, ReadCommentActivity.class);
                 startActivity(intent);
                 CustomIntent.customType(InfoDeviceActivity.this, "left-to-right");
             }
