@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -26,11 +27,19 @@ public class ReadCommentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private UserCommentAdapter userCommentAdapter;
     private List<User> mListUsers;
+    private ImageView btnBack;
+    private String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_comment);
 
+        id = getIntent().getStringExtra("id");
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(view -> {
+            finish();
+        });
         recyclerView = findViewById(R.id.rcvComment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -51,7 +60,9 @@ public class ReadCommentActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     User user = dataSnapshot.getValue(User.class);
-                    mListUsers.add(user);
+                    if(id.equals(user.id)){
+                        mListUsers.add(user);
+                    }
                 }
                 userCommentAdapter.notifyDataSetChanged();
             }

@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_history"
-            android:text="Xem lich sử"
+            android:text="Xem lịch sử"
             android:background="@drawable/mybutton2"
             android:radius="12dp"
             />

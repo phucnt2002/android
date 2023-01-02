@@ -3,6 +3,7 @@ package com.example.sampleproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -61,6 +62,7 @@ public class CommentActivity extends AppCompatActivity {
     TextView textView6;
     TextView textView8;
     String id;
+    private ProgressDialog progressDialog;
 
 
     @SuppressLint("MissingInflatedId")
@@ -110,13 +112,16 @@ public class CommentActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("userComment");
                 User user = getUserComment();
-                myRef.child(Calendar.getInstance().getTimeInMillis()+"").setValue(user, new DatabaseReference.CompletionListener() {
+                myRef.child(user.time+"").setValue(user, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        Toast.makeText(CommentActivity.this, "Push data success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CommentActivity.this, "Đã gửi phản hồi trực tuyến", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        finish();
                     }
                 });
             }
@@ -182,6 +187,7 @@ public class CommentActivity extends AppCompatActivity {
         userComment.wind = wind;
         userComment.totalWeather = totalWeather;
         userComment.describe = description.getText().toString();
+        userComment.time = Calendar.getInstance().getTimeInMillis();
         return userComment;
     }
 
@@ -345,5 +351,7 @@ public class CommentActivity extends AppCompatActivity {
         textView6 = findViewById(R.id.textView6);
         textView8 = findViewById(R.id.textView8);
         submit = findViewById(R.id.submit);
+        progressDialog = new ProgressDialog(this);
+
     }
 }

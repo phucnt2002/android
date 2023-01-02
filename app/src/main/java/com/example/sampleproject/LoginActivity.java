@@ -113,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
                                         inputPassword.setError(getString(R.string.minimum_password));
                                     } else {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
+
                                     }
                                 } else {
                                     progressDialog.dismiss();

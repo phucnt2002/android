@@ -1,5 +1,6 @@
 package com.example.sampleproject;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sampleproject.Model.User;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class UserCommentAdapter extends RecyclerView.Adapter<UserCommentAdapter.UserCommentViewHolder>{
@@ -39,6 +43,7 @@ public class UserCommentAdapter extends RecyclerView.Adapter<UserCommentAdapter.
         holder.wind.setText("Tốc độ gió thực tế: "+user.wind);
         holder.other.setText("Điều kiện thời tiết khác: "+user.ortherWeather);
         holder.description.setText("Mô tả: "+user.describe);
+        holder.time.setText("Thời gian phản hồi: "+ formatLongToDate(user.time));
     }
 
     @Override
@@ -58,6 +63,7 @@ public class UserCommentAdapter extends RecyclerView.Adapter<UserCommentAdapter.
         private TextView wind;
         private TextView other;
         private TextView description;
+        private TextView time;
 
         public UserCommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +74,14 @@ public class UserCommentAdapter extends RecyclerView.Adapter<UserCommentAdapter.
             wind = itemView.findViewById(R.id.wind);
             other = itemView.findViewById(R.id.other);
             description = itemView.findViewById(R.id.description);
+            time = itemView.findViewById(R.id.time);
         }
+    }
+
+    @SuppressLint("NewApi")
+    public static String formatLongToDate(long epochMilliUtc) {
+        @SuppressLint({"NewApi", "LocalSuppress"}) Instant instant = Instant.ofEpochMilli(epochMilliUtc);
+        @SuppressLint({"NewApi", "LocalSuppress"}) DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
+        return formatter.format(instant);
     }
 }

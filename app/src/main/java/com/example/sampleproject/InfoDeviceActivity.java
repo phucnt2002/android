@@ -132,6 +132,7 @@ public class InfoDeviceActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InfoDeviceActivity.this, ReadCommentActivity.class);
+                intent.putExtra("id", current.id);
                 startActivity(intent);
                 CustomIntent.customType(InfoDeviceActivity.this, "left-to-right");
             }
