@@ -47,6 +47,4 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
         app:layout_constraintTop_toBottomOf="@id/viewSupporter"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

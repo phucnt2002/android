@@ -1,5 +1,6 @@
 package com.example.sampleproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -7,9 +8,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +24,7 @@ import com.example.sampleproject.sql.DBManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
@@ -28,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textName;
     TextView textEmail;
     ImageView imgAvatar;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,14 +60,13 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
         textName = navigationView.getHeaderView(0).findViewById(R.id.nameUser);
         textEmail = navigationView.getHeaderView(0).findViewById(R.id.emailUser);
         imgAvatar = navigationView.getHeaderView(0).findViewById(R.id.imageProfile);
         showInfoUser();
     }
-
     private void showInfoUser() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user==null){
             return;
         }
@@ -74,4 +83,5 @@ public class MainActivity extends AppCompatActivity {
         textEmail.setText(email);
         Glide.with(this).load(uri).error(R.drawable.profile_picture).into(imgAvatar);
     }
+
 }

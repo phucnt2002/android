@@ -176,7 +176,7 @@ public class MapFragment extends Fragment {
                                 }
                             }
 
-                            KLog.json(new Gson().toJson(DBManager.getInstance().getWeather()));
+//                            KLog.json(new Gson().toJson(DBManager.getInstance().getWeather()));
                         }, throwable -> {
                             Log.e("getCurrent Error", " " + throwable.getMessage());
                         });

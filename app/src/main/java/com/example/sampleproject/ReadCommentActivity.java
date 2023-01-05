@@ -66,7 +66,6 @@ public class ReadCommentActivity extends AppCompatActivity {
                 }
                 userCommentAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(ReadCommentActivity.this, "Get faild list", Toast.LENGTH_SHORT).show();

@@ -74,19 +74,19 @@ public class AssetsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_assets, container, false);
-        listViewHis = (ListView) view.findViewById(R.id.listViewHis);
-        arrayTime = new ArrayList<>();
-        ArrayList<DataWeatherModel> weatherDatas = DBManager.getInstance().getWeather();
-        for(DataWeatherModel weatherData : weatherDatas){
-            arrayTime.add(TimeUtils.formatLongToDateHour(weatherData.time));
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(
-                getContext(),
-                android.R.layout.simple_list_item_1,
-                arrayTime
-        );
-        listViewHis.setAdapter(adapter);
+//        listViewHis = (ListView) view.findViewById(R.id.listViewHis);
+//        arrayTime = new ArrayList<>();
+//        ArrayList<DataWeatherModel> weatherDatas = DBManager.getInstance().getWeather();
+//        for(DataWeatherModel weatherData : weatherDatas){
+//            arrayTime.add(TimeUtils.formatLongToDateHour(weatherData.time));
+//        }
+//
+//        ArrayAdapter adapter = new ArrayAdapter(
+//                getContext(),
+//                android.R.layout.simple_list_item_1,
+//                arrayTime
+//        );
+//        listViewHis.setAdapter(adapter);
         return view;
     }
 }

@@ -1,10 +1,18 @@
 package com.example.sampleproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.sampleproject.Model.Current;
 import com.example.sampleproject.Model.User;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -63,7 +72,7 @@ public class CommentActivity extends AppCompatActivity {
     TextView textView8;
     String id;
     private ProgressDialog progressDialog;
-
+    private GoogleMap googleMap;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -88,13 +97,13 @@ public class CommentActivity extends AppCompatActivity {
 
         textView6.setText(current.attributes.temperature.value + " °C");
         textView8.setText(current.attributes.windSpeed.value + " km/h");
-        cbTemp1.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3,view.getId()));
-        cbTemp2.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3,view.getId()));
-        cbTemp3.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3,view.getId()));
+        cbTemp1.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3, view.getId()));
+        cbTemp2.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3, view.getId()));
+        cbTemp3.setOnClickListener(view -> CheckEvent(cbTemp1, cbTemp2, cbTemp3, view.getId()));
 
-        cbWind1.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3,view.getId()));
-        cbWind2.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3,view.getId()));
-        cbWind3.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3,view.getId()));
+        cbWind1.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3, view.getId()));
+        cbWind2.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3, view.getId()));
+        cbWind3.setOnClickListener(view -> CheckEvent(cbWind1, cbWind2, cbWind3, view.getId()));
 
         cbOther1.setOnClickListener(view -> CheckOtherEvent(view.getId()));
         cbOther2.setOnClickListener(view -> CheckOtherEvent(view.getId()));
@@ -128,6 +137,9 @@ public class CommentActivity extends AppCompatActivity {
         });
 
     }
+
+
+
     private User getUserComment() {
         User userComment = new User();
         String totalWeather = "";
