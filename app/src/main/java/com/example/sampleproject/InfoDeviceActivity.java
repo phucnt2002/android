@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,7 @@ import java.util.Calendar;
 import maes.tech.intentanim.CustomIntent;
 
 
-public class InfoDeviceActivity extends AppCompatActivity {
+public class InfoDeviceActivity extends AppCompatActivity implements LocationListener {
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -128,27 +129,26 @@ public class InfoDeviceActivity extends AppCompatActivity {
         btnComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//                if (ActivityCompat.checkSelfPermission(InfoDeviceActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(InfoDeviceActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    return;
-//                }
-//                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//                KLog.d("Location: ", location);
-//                double longitude = location.getLongitude();
-//                double latitude = location.getLatitude();
-//                Log.d("location: ", longitude+"###"+latitude);
-//                float[] results = new float[1];
-//                location.distanceBetween(current.attributes.location.value.coordinates.get(1), current.attributes.location.value.coordinates.get(0), latitude, longitude, results);
-//                Log.d("khoangcach", results[0]+"");
-                //results[0]<= 50
-                if(true){
+                LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(InfoDeviceActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(InfoDeviceActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                KLog.d("Location: ", location);
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                Log.d("location: ", longitude+"###"+latitude);
+                float[] results = new float[1];
+                location.distanceBetween(current.attributes.location.value.coordinates.get(1), current.attributes.location.value.coordinates.get(0), latitude, longitude, results);
+                Log.d("khoangcach", results[0]+"");
+                if(results[0]<= 50){
                     Intent intent = new Intent(InfoDeviceActivity.this, CommentActivity.class);
                     intent.putExtra("Current", new Gson().toJson(current));
                     startActivity(intent);
@@ -173,6 +173,16 @@ public class InfoDeviceActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Toast.makeText(this, "onLocationChanged", Toast.LENGTH_SHORT).show();
+    }
     @SuppressLint("NewApi")
     public static String formatLongToDate(long epochMilliUtc) {
         @SuppressLint({"NewApi", "LocalSuppress"}) Instant instant = Instant.ofEpochMilli(epochMilliUtc);
