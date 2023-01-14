@@ -148,7 +148,7 @@ public class InfoDeviceActivity extends AppCompatActivity implements LocationLis
                 float[] results = new float[1];
                 location.distanceBetween(current.attributes.location.value.coordinates.get(1), current.attributes.location.value.coordinates.get(0), latitude, longitude, results);
                 Log.d("khoangcach", results[0]+"");
-                if(results[0]<= 50){
+                if(results[0]<= 90000){
                     Intent intent = new Intent(InfoDeviceActivity.this, CommentActivity.class);
                     intent.putExtra("Current", new Gson().toJson(current));
                     startActivity(intent);
