@@ -1,4 +1,4 @@
-# Instruction
+# Introduce
 
 The Internet of Things (IoT) is a network of devices that feeds data into a platform to enable communication and automated control. IoT connects machines to other machines as well as people. This seamless connection between machines, humans, and data means that IoT simplifies, improves, and automates processes. Sensors, coupled with connectivity and artificial intelligence, have the potential to make several systems more efficient. Therefore, an IoT mobile application is necessary to provide information to users timely. 
 
@@ -20,7 +20,7 @@ for notes on deploying the project on a live system.
 A step by step series of examples that tell you how to get a development
 environment running
 
-Say what the step will be
+Clone project
 
     git clone https://github.com/phucnt2002/android.git
 
