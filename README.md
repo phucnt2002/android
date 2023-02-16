@@ -46,6 +46,12 @@ Get token and replace into APIClient file
   <img src="./img/6.jpg" width="350" title="hover text">
 </p>
 
+#### Chart
+<p align="center">
+  <img src="./img/10.jpg" width="350" title="hover text">
+  <img src="./img/11.jpg" width="350" title="hover text">
+</p>
+
 #### History weather
 <p align="center">
   <img src="./img/7.jpg" width="350" title="hover text">
